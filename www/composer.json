@@ -1,0 +1,7 @@
+{
+    "name": "NewSocialNetwork",
+    "type": "project",
+    "require": {
+        "fzaninotto/faker": "^1.9"
+    }
+}
