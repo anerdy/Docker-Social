@@ -8,8 +8,12 @@ class Model
     /** @var $connection PDO | null  */
     protected $connection = null;
 
+    /** @var $slave PDO | null  */
+    protected $slave = null;
+
     public function __construct() {
         $this->connection = Database::getInstance();
+        $this->slave = Database::getSlaveInstance();
     }
 
 

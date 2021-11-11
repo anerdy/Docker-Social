@@ -16,7 +16,7 @@ class User extends Model
 
     public function getUsers($count = 50, $offset = 0)
     {
-        $result = $this->connection->prepare('SELECT * FROM ' . $this->table . ' ORDER BY id ASC LIMIT ' . $count . ' OFFSET ' . $offset . ' ;');
+        $result = $this->slave->prepare('SELECT * FROM ' . $this->table . ' ORDER BY id ASC LIMIT ' . $count . ' OFFSET ' . $offset . ' ;');
         $result->execute();
 
         if ($result->rowCount() > 0) {
@@ -30,7 +30,7 @@ class User extends Model
     {
         $name = $name.'%';
         $surname = $surname.'%';
-        $result = $this->connection->prepare('SELECT * FROM ' . $this->table . ' WHERE `name` LIKE :name AND `surname` LIKE :surname ORDER BY id ASC;');
+        $result = $this->slave->prepare('SELECT * FROM ' . $this->table . ' WHERE `name` LIKE :name AND `surname` LIKE :surname ORDER BY id ASC;');
         $result->bindParam(':name', $name);
         $result->bindParam(':surname', $surname);
         $result->execute();

@@ -42,3 +42,15 @@ services:
         environment:
             MYSQL_ROOT_PASSWORD: test
             MYSQL_DATABASE: social_db
+    mysql3:
+        build: ./images/mysql3
+        ports:
+            - "3308:3308"
+        volumes:
+         - ./logs/mysql3:/var/log/mysql
+         - ./db/mysql3:/var/lib/mysql
+         - ./db/mysql-files3:/var/lib/mysql-files
+         - ./data:/docker-entrypoint-initdb.d
+        environment:
+            MYSQL_ROOT_PASSWORD: test
+            MYSQL_DATABASE: social_db
