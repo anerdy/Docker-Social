@@ -26,8 +26,8 @@ class Controller_User extends Controller
         if (isset($_COOKIE['auth'])) {
             $currentUser = $this->model->getCurrentUser();
         }
-        if (isset($_GET['id']) && !empty($_GET['id'])) {
-            $id = (int)$_GET['id'];
+        if (isset($GLOBALS['GET_PARAMS']['id']) && !empty($GLOBALS['GET_PARAMS']['id'])) {
+            $id = (int)$GLOBALS['GET_PARAMS']['id'];
             $user = $this->model->getUserById($id);
             if (!empty($currentUser) && $user !== false && $currentUser['id'] == $user['id']) {
                 $isCurrentUser = true;

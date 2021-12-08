@@ -11,9 +11,13 @@ class Model
     /** @var $slave PDO | null  */
     protected $slave = null;
 
+    /** @var $proxy PDO | null  */
+    protected $proxy = null;
+
     public function __construct() {
         $this->connection = Database::getInstance();
         $this->slave = Database::getSlaveInstance();
+        $this->proxy = Database::getProxyInstance();
     }
 
 

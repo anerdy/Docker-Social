@@ -18,8 +18,8 @@ class Controller_Main extends Controller
         $page = 1;
         if (isset($_COOKIE['auth'])) {
             $count = 10;
-            if (isset($_GET['page'])) {
-                $page = (int)$_GET['page'];
+            if (isset($GLOBALS['GET_PARAMS']['page'])) {
+                $page = (int)$GLOBALS['GET_PARAMS']['page'];
                 $offset = $count * $page - $count;
                 $users = $this->model->getUsers($count, $offset);
             } else {

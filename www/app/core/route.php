@@ -9,6 +9,9 @@ class Route
     {
         $controller_name = 'Main';
         $action_name = 'index';
+        $url_components = parse_url($_SERVER['REQUEST_URI']);
+        parse_str($url_components['query'], $params);
+        $GLOBALS['GET_PARAMS'] = $params;
         $_SERVER['REQUEST_URI'] = strtok($_SERVER['REQUEST_URI'], '?');
         $routes = explode('/', $_SERVER['REQUEST_URI']);
 

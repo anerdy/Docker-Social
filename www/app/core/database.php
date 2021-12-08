@@ -8,6 +8,7 @@ class Database {
 
     private static $mysql = null;
     private static $slave = null;
+    private static $proxy = null;
 
     protected function __construct() { }
 
@@ -44,6 +45,21 @@ class Database {
         }
 
         return static::$slave;
+    }
+
+    public static function getProxyInstance()
+    {
+        if (static::$proxy === null) {
+            try {
+                //var_dump(PROXYSQL_DBHOST);die;
+                static::$proxy = new PDO("mysql:host=".PROXYSQL_DBHOST.";port=6033;dbname=".PROXYSQL_DBNAME, PROXYSQL_DBUSER, PROXYSQL_DBPASS);
+                static::$proxy->query("SET NAMES 'utf8'");
+            } catch (PDOException $e) {
+                die('Подключение не удалось: ' . $e->getMessage());
+            }
+        }
+
+        return static::$proxy;
     }
 
 }

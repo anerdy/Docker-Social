@@ -20,6 +20,7 @@
                                 <b>Город:</b> <?= $user['city'] ?> <br>
                             </p>
                             <?php if ( ! $data['isCurrentUser']): ?>
+                                <a href="/chat/dialog?id=<?= $user['id'] ?>" class="btn btn-primary" >Написать</a>
                                 <?php if ( $data['isFriend']): ?>
                                     <form action="#" method="post">
                                         <p class="card-text">
