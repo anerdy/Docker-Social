@@ -24,6 +24,9 @@
                 <li class="nav-item">
                     <a class="nav-link" href="/user/friends">Друзья</a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/feed/index">Новости</a>
+                </li>
             <?php endif; ?>
             <li class="nav-item">
                 <a class="nav-link" href="/user/find">Поиск</a>

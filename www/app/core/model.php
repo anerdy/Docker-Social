@@ -16,8 +16,10 @@ class Model
 
     public function __construct() {
         $this->connection = Database::getInstance();
-        $this->slave = Database::getSlaveInstance();
-        $this->proxy = Database::getProxyInstance();
+   //     $this->slave = Database::getSlaveInstance();
+     //   $this->proxy = Database::getProxyInstance();
+        $this->slave = $this->connection;
+        $this->proxy = $this->connection;
     }
 
 

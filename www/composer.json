@@ -1,7 +1,8 @@
 {
-    "name": "NewSocialNetwork",
+    "name": "anerdy/social-docker",
     "type": "project",
     "require": {
-        "fzaninotto/faker": "^1.9"
+        "fzaninotto/faker": "^1.9",
+        "videlalvaro/php-amqplib": "2.2.*"
     }
 }
