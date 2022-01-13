@@ -30,37 +30,56 @@ services:
         environment:
             MYSQL_ROOT_PASSWORD: test
             MYSQL_DATABASE: social_db
-    mysql2:
-        build: ./images/mysql2
+    # mysql2:
+    #     build: ./images/mysql2
+    #     ports:
+    #         - "3307:3307"
+    #     volumes:
+    #      - ./logs/mysql2:/var/log/mysql
+    #      - ./db/mysql2:/var/lib/mysql
+    #      - ./db/mysql-files2:/var/lib/mysql-files
+    #      - ./data:/docker-entrypoint-initdb.d
+    #     environment:
+    #         MYSQL_ROOT_PASSWORD: test
+    #         MYSQL_DATABASE: social_db
+    # mysql3:
+    #     build: ./images/mysql3
+    #     ports:
+    #         - "3308:3308"
+    #     volumes:
+    #      - ./logs/mysql3:/var/log/mysql
+    #      - ./db/mysql3:/var/lib/mysql
+    #      - ./db/mysql-files3:/var/lib/mysql-files
+    #      - ./data:/docker-entrypoint-initdb.d
+    #     environment:
+    #         MYSQL_ROOT_PASSWORD: test
+    #         MYSQL_DATABASE: social_db
+    # proxysql:
+    #     build: ./images/proxysql
+    #     container_name: proxysql
+    #     volumes:
+    #       - ./db/proxysql:/var/lib/proxysql
+    #     ports:
+    #       # Mysql Client Port
+    #       - "6033:6033"
+    #       # Mysql Admin Port
+    #       - "6032:6032"
+    rabbitmq:
+        image: rabbitmq:3.9-management-alpine
+        container_name: 'rabbitmq'
         ports:
-            - "3307:3307"
+            - 5672:5672
+            - 15672:15672
         volumes:
-         - ./logs/mysql2:/var/log/mysql
-         - ./db/mysql2:/var/lib/mysql
-         - ./db/mysql-files2:/var/lib/mysql-files
-         - ./data:/docker-entrypoint-initdb.d
+            - ./libs/rabbitmq:/var/lib/rabbitmq/
+            - ./logs/rabbitmq:/var/log/rabbitmq/
+    redis:
+        image: "redis:alpine"
+        command: redis-server --requirepass testpass
+        ports:
+            - "6379:6379"
+        volumes:
+            - ./libs/redis:/var/lib/redis
+      #      - ./libs/redis.conf:/usr/local/etc/redis/redis.conf
         environment:
-            MYSQL_ROOT_PASSWORD: test
-            MYSQL_DATABASE: social_db
-    mysql3:
-        build: ./images/mysql3
-        ports:
-            - "3308:3308"
-        volumes:
-         - ./logs/mysql3:/var/log/mysql
-         - ./db/mysql3:/var/lib/mysql
-         - ./db/mysql-files3:/var/lib/mysql-files
-         - ./data:/docker-entrypoint-initdb.d
-        environment:
-            MYSQL_ROOT_PASSWORD: test
-            MYSQL_DATABASE: social_db
-    proxysql:
-        build: ./images/proxysql
-        container_name: proxysql
-        volumes:
-          - ./db/proxysql:/var/lib/proxysql
-        ports:
-          # Mysql Client Port
-          - "6033:6033"
-          # Mysql Admin Port
-          - "6032:6032"
+            - REDIS_REPLICATION_MODE=master

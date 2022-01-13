@@ -33,6 +33,7 @@ class Database {
         return static::$mysql;
     }
 
+    /*
     public static function getSlaveInstance()
     {
         if (static::$slave === null) {
@@ -61,5 +62,6 @@ class Database {
 
         return static::$proxy;
     }
+    */
 
 }
