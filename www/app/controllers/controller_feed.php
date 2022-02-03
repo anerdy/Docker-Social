@@ -74,6 +74,4 @@ class Controller_Feed extends Controller
 
         $this->view->generate('feed/add.php', 'template_view.php' );
     }
-
-
-} 
+}
