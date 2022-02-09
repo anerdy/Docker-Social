@@ -5,10 +5,12 @@ services:
         image: nginx:latest
         ports:
             - "80:80"
+            - "81:81"
             - "443:443"
         volumes:
             - ./hosts:/etc/nginx/conf.d
-            - ./www:/var/www
+            - ./www:/var/www/main
+            - ./services/dialog_service/www:/var/www/dialog
             - ./logs/nginx:/var/log/nginx
         links:
             - php
@@ -17,7 +19,8 @@ services:
         links:
             - mysql1
         volumes:
-            - ./www:/var/www
+            - ./www:/var/www/main
+            - ./services/dialog_service/www:/var/www/dialog
     mysql1:
         build: ./images/mysql1
         ports:
