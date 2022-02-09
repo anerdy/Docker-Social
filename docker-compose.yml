@@ -5,10 +5,12 @@ services:
         image: nginx:latest
         ports:
             - "80:80"
+            - "81:81"
             - "443:443"
         volumes:
             - ./hosts:/etc/nginx/conf.d
-            - ./www:/var/www
+            - ./www:/var/www/main
+            - ./services/dialog_service/www:/var/www/dialog
             - ./logs/nginx:/var/log/nginx
         links:
             - php
@@ -17,7 +19,8 @@ services:
         links:
             - mysql1
         volumes:
-            - ./www:/var/www
+            - ./www:/var/www/main
+            - ./services/dialog_service/www:/var/www/dialog
     mysql1:
         build: ./images/mysql1
         ports:
@@ -83,21 +86,4 @@ services:
       #      - ./libs/redis.conf:/usr/local/etc/redis/redis.conf
         environment:
             - REDIS_REPLICATION_MODE=master
-    dialog_nginx:
-        image: nginx:latest
-        ports:
-            - "81:80"
-            - "444:443"
-        volumes:
-            - ./services/dialog_service/hosts:/etc/nginx/conf.d
-            - ./services/dialog_service/www:/var/www
-            - ./logs/dialog_service:/var/log/nginx
-        links:
-            - dialog_php
-    dialog_php:
-        build: ./images/php
-        links:
-            - mysql1
-        volumes:
-            - ./services/dialog_service/www:/var/www
 

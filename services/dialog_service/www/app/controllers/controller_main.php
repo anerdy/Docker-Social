@@ -15,23 +15,7 @@ class Controller_Main extends Controller
 
     public function action_index()
     {
-        $page = 1;
-        if (isset($_COOKIE['auth'])) {
-            $count = 10;
-            if (isset($GLOBALS['GET_PARAMS']['page'])) {
-                $page = (int)$GLOBALS['GET_PARAMS']['page'];
-                $offset = $count * $page - $count;
-                $users = $this->model->getUsers($count, $offset);
-            } else {
-                $users = $this->model->getUsers($count);
-            }
-            $currentUser = $this->model->getCurrentUser();
-        } else {
-            $users = [];
-            $currentUser = [];
-        }
-
-        $this->view->generate('main.php', 'template_view.php', ['users' => $users, 'currentUser' => $currentUser, 'page' => $page] );
+        die('Api service');
     }
 
 }
