@@ -50,6 +50,12 @@ mysql_servers =
          port=3308
          hostgroup=2
          max_connections=200
+    },
+    {
+         address="mysql4"
+         port=3309
+         hostgroup=3
+         max_connections=200
     }
 )
 
@@ -94,6 +100,13 @@ mysql_query_rules:
         active=1
         match_pattern="\/\*.*\s*shard\s*=\s*2\s*.*\*\/"
         destination_hostgroup=2
+        apply=1
+    },
+    {
+        rule_id=4
+        active=1
+        match_pattern="\/\*.*\s*shard\s*=\s*3\s*.*\*\/"
+        destination_hostgroup=3
         apply=1
     },
 )
