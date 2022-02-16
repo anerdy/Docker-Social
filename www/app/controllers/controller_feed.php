@@ -33,7 +33,7 @@ class Controller_Feed extends Controller
 
         try {
             $client = new GuzzleClient();
-            $response = $client->request('GET', nginx.':81/v1/dialog?user_id='.$currentUser['id']);
+            $response = $client->request('GET', nginx-lb.':4089/v1/dialog?user_id='.$currentUser['id']);
             
             $content = json_decode($response->getBody()->getContents(), true);
             $posts = isset($content['posts']) ? $content['posts'] : [];
@@ -57,7 +57,7 @@ class Controller_Feed extends Controller
             if (isset($_POST['text'])) {
                 $text = $_POST['text'];
                 $client = new GuzzleClient();
-                $response = $client->request('POST', nginx.':81/v1/dialog', [
+                $response = $client->request('POST', nginx-lb.':4089/v1/dialog', [
                     'form_params' => [
                         'user_id' => $currentUser['id'],
                         'text' => $text

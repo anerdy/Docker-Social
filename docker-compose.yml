@@ -1,12 +1,41 @@
 version: "3.7"
 
 services:
+    nginx_lb:
+        image: nginx:1.21
+        container_name: nginx-lb
+        restart: on-failure
+        volumes:
+            - ./libs/nginx_lb/default.conf:/etc/nginx/conf.d/default.conf
+            - ./logs/nginx_lb:/var/log/nginx
+        ports:
+            - "4088:80"
+            - "4089:81"
+            - "4098:8080"
+        links:
+            - nginx
+            - nginx2
     nginx:
         image: nginx:latest
+        container_name: nginx-backend-1
+        restart: "no"
         ports:
             - "80:80"
             - "81:81"
-            - "443:443"
+        volumes:
+            - ./hosts:/etc/nginx/conf.d
+            - ./www:/var/www/main
+            - ./services/dialog_service/www:/var/www/dialog
+            - ./logs/nginx:/var/log/nginx
+        links:
+            - php
+    nginx2:
+        image: nginx:latest
+        container_name: nginx-backend-2
+        restart: "no"
+        ports:
+            - "82:82"
+            - "83:83"
         volumes:
             - ./hosts:/etc/nginx/conf.d
             - ./www:/var/www/main
@@ -16,6 +45,7 @@ services:
             - php
     php:
         build: ./images/php
+        container_name: php
         links:
             - mysql1
         volumes:
@@ -23,6 +53,7 @@ services:
             - ./services/dialog_service/www:/var/www/dialog
     mysql1:
         build: ./images/mysql1
+        container_name: mysql1
         ports:
             - "3306:3306"
         volumes:
@@ -33,18 +64,19 @@ services:
         environment:
             MYSQL_ROOT_PASSWORD: test
             MYSQL_DATABASE: social_db
-    # mysql2:
-    #     build: ./images/mysql2
-    #     ports:
-    #         - "3307:3307"
-    #     volumes:
-    #      - ./logs/mysql2:/var/log/mysql
-    #      - ./db/mysql2:/var/lib/mysql
-    #      - ./db/mysql-files2:/var/lib/mysql-files
-    #      - ./data:/docker-entrypoint-initdb.d
-    #     environment:
-    #         MYSQL_ROOT_PASSWORD: test
-    #         MYSQL_DATABASE: social_db
+    mysql2:
+        build: ./images/mysql2
+        container_name: mysql2
+        ports:
+            - "3307:3306"
+        volumes:
+         - ./logs/mysql2:/var/log/mysql
+         - ./db/mysql2:/var/lib/mysql
+         - ./db/mysql-files2:/var/lib/mysql-files
+         - ./data:/docker-entrypoint-initdb.d
+        environment:
+            MYSQL_ROOT_PASSWORD: test
+            MYSQL_DATABASE: social_db
     # mysql3:
     #     build: ./images/mysql3
     #     ports:
@@ -78,6 +110,7 @@ services:
             - ./logs/rabbitmq:/var/log/rabbitmq/
     redis:
         image: "redis:alpine"
+        container_name: 'redis'
         command: redis-server --requirepass testpass
         ports:
             - "6379:6379"
@@ -86,4 +119,15 @@ services:
       #      - ./libs/redis.conf:/usr/local/etc/redis/redis.conf
         environment:
             - REDIS_REPLICATION_MODE=master
-
+    haproxy:
+        image: haproxy:2.2
+        container_name: haproxylb
+        restart: "no"
+        volumes:
+            - "./libs/haproxy/haproxy.cfg:/usr/local/etc/haproxy/haproxy.cfg"
+        ports:
+            - "3309:3309"
+            - "8404:8404"
+        links:
+            - mysql1
+            - mysql2

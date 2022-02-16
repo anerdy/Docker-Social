@@ -49,5 +49,12 @@
     </div>
 <?php endif; ?>
 <?php include 'app/views/'.$content_view; ?>
+<footer>
+    <div align="center">
+        <p><span>Server&nbsp;address:</span> <span>server_address</span></p>
+        <p><span>Server&nbsp;name:</span> <span>server_hostname</span></p>
+        <p><span>Date:</span> <span>server_date</span></p>
+    </div>
+</footer>
 </body>
 </html>
