@@ -6,11 +6,13 @@ services:
         ports:
             - "80:80"
             - "81:81"
+            - "82:82"
             - "443:443"
         volumes:
             - ./hosts:/etc/nginx/conf.d
             - ./www:/var/www/main
             - ./services/dialog_service/www:/var/www/dialog
+            - ./services/notification_service/www:/var/www/notification
             - ./logs/nginx:/var/log/nginx
         links:
             - php
@@ -21,6 +23,7 @@ services:
         volumes:
             - ./www:/var/www/main
             - ./services/dialog_service/www:/var/www/dialog
+            - ./services/notification_service/www:/var/www/notification
     mysql1:
         build: ./images/mysql1
         ports:

@@ -8,6 +8,7 @@ use App\Core\View;
 use \Exception;
 use App\Services\RabbitMQService;
 use App\Services\RedisService;
+use \GuzzleHttp\Client as GuzzleClient;
 
 class Controller_V1 extends Controller
 {
@@ -56,6 +57,23 @@ class Controller_V1 extends Controller
                 $this->model->addPost($userId, $text);
 
                 $this->rabbitMQService->addPosts($friendsIds, $text);
+
+                try {
+                    $client = new GuzzleClient();
+                    $response = $client->request('POST', nginx.':82/v1/notification', [
+                        'form_params' => [
+                            'user_id' => $userId
+                        ]
+                    ]);
+                    $content = json_decode($response->getBody()->getContents(), true);
+                    if ( !isset($content['success']) || $content['success'] != true ) {
+                        print json_encode(['error' => 'Ошибка отправки уведомления.'.$userId.serialize($content)], JSON_PRETTY_PRINT);
+                        die;
+                    }
+                } catch (Exception $e) {
+                    print json_encode(['error' => 'Ошибка получения данных: '.$e->getMessage()], JSON_PRETTY_PRINT);
+                    die;
+                }
 
                 print json_encode(['success' => true], JSON_PRETTY_PRINT);
                 die;

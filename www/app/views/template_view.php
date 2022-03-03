@@ -25,7 +25,11 @@
                     <a class="nav-link" href="/user/friends">Друзья</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/feed/index">Новости</a>
+                    <a class="nav-link" href="/feed/index">Новости
+                        <?php if (isset($data['notifications']) && $data['notifications'] != 0): ?>
+                            <span class="badge bg-info"><?= $data['notifications'] ?></span>
+                        <?php endif; ?>
+                    </a>
                 </li>
             <?php endif; ?>
             <li class="nav-item">

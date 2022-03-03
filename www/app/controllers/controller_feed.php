@@ -37,6 +37,11 @@ class Controller_Feed extends Controller
             
             $content = json_decode($response->getBody()->getContents(), true);
             $posts = isset($content['posts']) ? $content['posts'] : [];
+
+            $client2 = new GuzzleClient();
+            $response = $client2->request('PUT', nginx.':82/v1/notification?user_id='.$currentUser['id']);
+            $content = json_decode($response->getBody()->getContents(), true);
+
         } catch (Exception $e) {
             die('Ошибка получения данных: '.$e->getMessage());
         }

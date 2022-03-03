@@ -1,11 +1,11 @@
 <?php
-// start from www folder
-// php app/commands/ws.php start
+// start from project root
+// php www/app/commands/ws.php start
 ini_set('display_errors', 1);
-require_once 'config.php';
-require_once 'vendor/autoload.php';
-require_once 'app/core/database.php';
-require_once 'app/services/RabbitMQService.php';
+require_once 'www/config.php';
+require_once 'www/vendor/autoload.php';
+require_once 'www/app/core/database.php';
+require_once 'www/app/services/RabbitMQService.php';
 
 use Workerman\Worker;
 use App\Services\RabbitMQService;
