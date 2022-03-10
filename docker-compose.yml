@@ -89,4 +89,13 @@ services:
       #      - ./libs/redis.conf:/usr/local/etc/redis/redis.conf
         environment:
             - REDIS_REPLICATION_MODE=master
-
+    tarantool:
+        image: "tarantool/tarantool:2.6.0"
+        container_name: 'mytarantool'
+        ports:
+            - "3301:3301"
+        volumes:
+            - ./libs/tarantool:/var/lib/tarantool
+        environment:
+            - TARANTOOL_USER_NAME=root
+            - TARANTOOL_USER_PASSWORD=test

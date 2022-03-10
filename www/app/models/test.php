@@ -16,12 +16,11 @@ class Test extends Model
     public function addTestName($name)
     {
         try {
-            $result = $this->connection->prepare('INSERT INTO ' . $this->table . ' (name) 
-        value (:name);');
+            $result = $this->connection->prepare('INSERT INTO ' . $this->table . ' (name) value (:name);');
             $result->bindParam(':name', $name);
             $result->execute();
         } catch (\Exception $exception) {
-            header("Location: /test/testadd");
+            header("Location: /test/testadd?massage=".$exception->getMessage());
             die();
         }
     }

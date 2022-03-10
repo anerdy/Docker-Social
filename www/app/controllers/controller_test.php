@@ -16,7 +16,6 @@ class Controller_Test extends Controller
 
     public function action_testadd()
     {
-
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 if (isset($_POST['name'])) {
                     $name = $_POST['name'];
@@ -28,7 +27,5 @@ class Controller_Test extends Controller
 
         $this->view->generate('test/testadd.php', 'template_view.php' );
     }
-
-
 
 }
