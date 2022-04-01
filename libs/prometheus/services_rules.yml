@@ -1,0 +1,38 @@
+groups:
+- name: nginx
+  rules:
+  - alert: nginx_is_running
+    expr: nginx_up == 0
+    for: 30s
+    labels:
+      severity: critical
+    annotations:
+      summary: "Critical: Nginx is down on the host {{ $labels.instance }}."
+      description: "Nginx has been down for more than 30 seconds"
+ 
+  - alert: nginx_not_all_connections_are_handled
+    expr: rate (nginx_connections_handled{job="nginx-exporter"}[5m]) / rate (nginx_connections_accepted{job="nginx-exporter"}[5m]) <1 
+    for: 2m
+    labels:
+      severity: critical
+    annotations:
+      description: "Critical: Nginx does not handle all accept connections on the host {{ $labels.instance }} for more than 3 minutes"
+      summary: "Nginx issue with handling connections"
+ 
+  - alert: nginx_high_number_active_connections_nginx-exporter
+    expr: nginx_connections_active{instance="nginx-exporter:9113",job="nginx-exporter"} > 3000
+    for: 3m
+    labels:
+      severity: critical
+    annotations:
+      description: "Critical: Nginx high number active connections on the host {{ $labels.instance }} for more than 3 minutes"
+      summary: "Nginx high number active connections"
+ 
+  - alert: nginx_high_number_active_connections_nginx-exporter
+    expr: nginx_connections_active{instance="nginx-exporter:9113",job="nginx-exporter"} > 1500
+    for: 3m
+    labels:
+      severity: critical
+    annotations:
+      description: "Critical: Nginx high number active connections on the host {{ $labels.instance }} for more than 3 minutes"
+      summary: "Nginx high number active connections"

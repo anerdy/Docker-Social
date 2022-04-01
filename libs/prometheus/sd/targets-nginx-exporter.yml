@@ -1,0 +1,7 @@
+- targets:
+   - nginx-exporter:9113
+  labels:
+    env: staging
+    job: nginx-exporter 
+ 
+ 
